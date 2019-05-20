@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pms.mapper.UserMapper">
+
+    <sql id="Base_Column_List">
+		user_id,user_name,user_password,user_phone,user_email,
+		user_status,user_level,user_description
+	</sql>
+    <!-- insert user 其中keyProperty=user中的id字段-->
+    <insert id = "addUser"  useGeneratedKeys="true" keyProperty="userId"  parameterType="com.pms.entity.User">
+       insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null">
+                user_id,
+            </if>
+            <if test="userName!=null">
+                user_name,
+            </if>
+            <if test="userPassword!=null">
+                user_password,
+            </if>
+            <if test="userPhone!=null">
+                user_phone,
+            </if>
+            <if test="userEmail!=null">
+                user_email,
+            </if>
+            <if test="userStatus!=null">
+                user_status,
+            </if>
+            <if test="userLevel!=null">
+                user_level,
+            </if>
+            <if test="userDescription!=null">
+                user_description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="userName != null">
+                #{userName},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus},
+            </if>
+            <if test="userLevel != null">
+                #{userLevel},
+            </if>
+            <if test="userDescription != null">
+                #{userDescription},
+            </if>
+        </trim>
+    </insert>
+    <!-- delete user -->
+    <delete id="deleteUser" parameterType="int">
+        UPDATE user set user_status = 2
+        where user_id=#{userId}
+    </delete>
+
+    <!-- update user -->
+    <update id="updateUser" parameterType="com.pms.entity.User">
+        UPDATE user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus},
+            </if>
+            <if test="userLevel != null">
+                user_level = #{userLevel},
+            </if>
+            <if test="userDescription != null">
+                user_description = #{userDescription},
+            </if>
+        </set>
+          where user_id=#{userId}
+    </update>
+
+    <!-- find user by id-->
+    <select id="findUserById" parameterType="int" resultType="com.pms.entity.User">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <!-- find user by name -->
+    <select id="findUserByName" parameterType="String" resultType="com.pms.entity.User">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where user_name = #{userName}
+    </select>
+
+    <!-- find user by status -->
+    <select id="findUserByStatus" parameterType="int" resultType="com.pms.entity.User">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where user_status = #{userStatus}
+    </select>
+
+    <!-- find all user -->
+    <select id="findAllUser" resultType="com.pms.entity.User">
+    	SELECT * FROM USER
+    </select>
+
+</mapper>

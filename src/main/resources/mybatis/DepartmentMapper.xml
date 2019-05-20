@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pms.mapper.DepartmentMapper">
+
+    <sql id="Base_Column_List">
+		department_id,department_name,department_level,department_status
+	</sql>
+    <!-- insert department 其中keyProperty=department中的id字段-->
+    <insert id = "addDepartment"  useGeneratedKeys="true" keyProperty="departmentId"  parameterType="com.pms.entity.Department">
+       insert into department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="departmentId!=null">
+                department_id,
+            </if>
+            <if test="departmentName!=null">
+                department_name,
+            </if>
+            <if test="departmentLevel!=null">
+                department_level,
+            </if>
+            <if test="departmentStatus!=null">
+                department_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="departmentId!=null">
+                #{departmentId},
+            </if>
+            <if test="departmentName!=null">
+                #{departmentName},
+            </if>
+            <if test="departmentLevel!=null">
+                #{departmentLevel},
+            </if>
+            <if test="departmentStatus!=null">
+                #{departmentStatus},
+            </if>
+        </trim>
+    </insert>
+    <!-- delete department -->
+    <delete id="deleteDepartment" parameterType="int">
+        update department set department_status=2
+        where department_id=#{departmentId}
+    </delete>
+
+    <!-- update department -->
+    <update id="updateDepartment" parameterType="com.pms.entity.Department">
+        UPDATE department
+        <set>
+            <if test="departmentId!=null">
+                department_id=#{departmentId},
+            </if>
+            <if test="departmentName!=null">
+                department_name=#{departmentName},
+            </if>
+            <if test="departmentLevel!=null">
+                department_level=#{departmentLevel},
+            </if>
+            <if test="departmentStatus!=null">
+                department_status=#{departmentStatus},
+            </if>
+        </set>
+          where department_id=#{departmentId}
+    </update>
+
+    <!-- find department by departmentId-->
+    <select id="findDepartmentById" parameterType="int" resultType="com.pms.entity.Department">
+        select
+        <include refid="Base_Column_List" />
+        from department
+        where department_id = #{departmentId}
+    </select>
+
+    <!-- find department by name -->
+    <select id="findDepartmentByName" parameterType="String" resultType="com.pms.entity.Department">
+        select
+        <include refid="Base_Column_List" />
+        from department
+        where department_name = #{departmentName}
+    </select>
+    <!-- find department by name -->
+    <select id="findDepartmentByStatus" parameterType="int" resultType="com.pms.entity.Department">
+        select
+        <include refid="Base_Column_List" />
+        from department
+        where department_status = #{departmentStatus}
+    </select>
+
+    <!-- find all department -->
+    <select id="findAllDepartment" resultType="com.pms.entity.Department">
+    	SELECT * FROM department
+    </select>
+
+</mapper>

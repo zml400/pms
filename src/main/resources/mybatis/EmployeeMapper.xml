@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pms.mapper.EmployeeMapper">
+
+    <sql id="Base_Column_List">
+		employee_id,employee_number,employee_name,employee_gender,
+		employee_identity_card,employee_phone,employee_email,employee_address,
+		employee_position,employee_department,employee_status
+	</sql>
+    <!-- insert employee 其中keyProperty=employee中的id字段-->
+    <insert id = "addEmployee"  useGeneratedKeys="true" keyProperty="employeeId"  parameterType="com.pms.entity.Employee">
+       insert into employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeId!=null">
+                employee_id,
+            </if>
+            <if test="employeeNumber!=null">
+                employee_number,
+            </if>
+            <if test="employeeName!=null">
+                employee_name,
+            </if>
+            <if test="employeeGender!=null">
+                employee_gender,
+            </if>
+            <if test="employeeIdentityCard!=null">
+                employee_identity_card,
+            </if>
+            <if test="employeePhone!=null">
+                employee_phone,
+            </if>
+            <if test="employeeEmail!=null">
+                employee_email,
+            </if>
+            <if test="employeeAddress!=null">
+                employee_address,
+            </if>
+            <if test="employeePosition!=null">
+                employee_position,
+            </if>
+            <if test="employeeDepartment!=null">
+                employee_department,
+            </if>
+            <if test="employeeStatus!=null">
+                employee_status,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeId != null">
+                #{employeeId},
+            </if>
+            <if test="employeeNumber != null">
+                #{employeeNumber},
+            </if>
+            <if test="employeeName != null">
+                #{employeeName},
+            </if>
+            <if test="employeeGender != null">
+                #{employeeGender},
+            </if>
+            <if test="employeeIdentityCard != null">
+                #{employeeIdentityCard},
+            </if>
+            <if test="employeePhone != null">
+                #{employeePhone},
+            </if>
+            <if test="employeeEmail != null">
+                #{employeeEmail},
+            </if>
+            <if test="employeeAddress != null">
+                #{employeeAddress},
+            </if>
+            <if test="employeePosition != null">
+                #{employeePosition},
+            </if>
+            <if test="employeeDepartment != null">
+                #{employeeDepartment},
+            </if>
+            <if test="employeeStatus != null">
+                #{employeeStatus},
+            </if>
+        </trim>
+    </insert>
+    <!-- delete employee -->
+    <delete id="deleteEmployee" parameterType="int">
+        UPDATE employee set employee_status = 2
+        where employee_id=#{employeeId}
+    </delete>
+
+    <!-- update employee -->
+    <update id="updateEmployee" parameterType="com.pms.entity.Employee">
+        UPDATE employee
+        <set>
+            <if test="employeeId!=null">
+                employee_id=#{employeeId},
+            </if>
+            <if test="employeeNumber!=null">
+                employee_number=#{employeeNumber},
+            </if>
+            <if test="employeeName!=null">
+                employee_name=#{employeeName},
+            </if>
+            <if test="employeeGender!=null">
+                employee_gender=#{employeeGender},
+            </if>
+            <if test="employeeIdentityCard!=null">
+                employee_identity_card=#{employeeIdentityCard},
+            </if>
+            <if test="employeePhone!=null">
+                employee_phone=#{employeePhone},
+            </if>
+            <if test="employeeEmail!=null">
+                employee_email=#{employeeEmail},
+            </if>
+            <if test="employeeAddress!=null">
+                employee_address=#{employeeAddress},
+            </if>
+            <if test="employeePosition!=null">
+                employee_position=#{employeePosition},
+            </if>
+            <if test="employeeDepartment!=null">
+                employee_department=#{employeeDepartment},
+            </if>
+            <if test="employeeStatus!=null">
+                employee_status=#{employeeStatus},
+            </if>
+        </set>
+          where employee_id=#{employeeId}
+    </update>
+
+    <!-- find employee by id-->
+    <select id="findEmployeeById" parameterType="int" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where employee_identity_card = #{employeeIdentityCard}
+    </select>
+
+    <!-- find employee by IdentityCard-->
+    <select id="findEmployeeByIdentityCard" parameterType="String" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where employee_identity_card = #{employeeIdentityCard}
+    </select>
+
+    <!-- find employee by number-->
+    <select id="findEmployeeByNumber" parameterType="String" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where employee_number=#{employeeNumber}
+    </select>
+    <!-- find employee by phone-->
+    <select id="findEmployeeByPhone" parameterType="String" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where employee_phone = #{employeePhone}
+    </select>
+
+    <!-- find employee by gender-->
+    <select id="findEmployeeByGender" parameterType="String" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where employee_gender=#{employeeGender}
+    </select>
+
+    <!-- find employee by position-->
+    <select id="findEmployeeByPosition" parameterType="String" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where  employee_position=#{employeePosition}
+    </select>
+
+    <!-- find employee by department-->
+    <select id="findEmployeeByDepartment" parameterType="String" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where  employee_department=#{employeeDepartment}
+    </select>
+
+    <!-- find employee by name -->
+    <select id="findEmployeeByName" parameterType="String" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where employee_name = #{employeeName}
+    </select>
+
+    <!-- find employee by status -->
+    <select id="findEmployeeByStatus" parameterType="int" resultType="com.pms.entity.Employee">
+        select
+        <include refid="Base_Column_List" />
+        from employee
+        where employee_status = #{employeeStatus}
+    </select>
+
+    <!-- find all employee -->
+    <select id="findAllEmployee" resultType="com.pms.entity.Employee">
+    	select * from employee
+    </select>
+
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pms.mapper.PositionMapper">
+
+    <sql id="Base_Column_List">
+		position_id,position_name,position_status,position_level
+	</sql>
+    <!-- insert position 其中keyProperty=position中的id字段-->
+    <insert id = "addPosition"  useGeneratedKeys="true" keyProperty="positionId"  parameterType="com.pms.entity.Position">
+       insert into position
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="positionId!=null">
+                position_id,
+            </if>
+            <if test="positionName!=null">
+                position_name,
+            </if>
+            <if test="positionStatus!=null">
+                position_status,
+            </if>
+            <if test="positionLevel!=null">
+                position_level,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="positionId != null">
+                #{positionId},
+            </if>
+            <if test="positionName != null">
+                #{positionName},
+            </if>
+            <if test="positionStatus != null">
+                #{positionStatus},
+            </if>
+            <if test="positionLevel != null">
+                #{positionLevel},
+            </if>
+        </trim>
+    </insert>
+    <!-- delete position -->
+    <delete id="deletePosition" parameterType="int">
+        UPDATE position set position_status = 2
+        where position_id=#{positionId}
+    </delete>
+
+    <!-- update position -->
+    <update id="updatePosition" parameterType="com.pms.entity.Position">
+        UPDATE position
+        <set>
+            <if test="positionId != null">
+                position_id = #{positionId},
+            </if>
+            <if test="positionName != null">
+                position_name = #{positionName},
+            </if>
+            <if test="positionStatus != null">
+                position_status = #{positionStatus},
+            </if>
+            <if test="positionLevel != null">
+                position_level = #{positionLevel},
+            </if>
+        </set>
+          where position_id=#{positionId}
+    </update>
+
+    <!-- find position by id-->
+    <select id="findPositionById" parameterType="int" resultType="com.pms.entity.Position">
+        select
+        <include refid="Base_Column_List" />
+        from position
+        where position_id = #{positionId}
+    </select>
+
+    <!-- find position by name -->
+    <select id="findPositionByName" parameterType="String" resultType="com.pms.entity.Position">
+        select
+        <include refid="Base_Column_List" />
+        from position
+        where position_name = #{positionName}
+    </select>
+
+    <!-- find position by status -->
+    <select id="findPositionByStatus" parameterType="int" resultType="com.pms.entity.Position">
+        select
+        <include refid="Base_Column_List" />
+        from position
+        where position_status = #{positionStatus}
+    </select>
+
+    <!-- find all position -->
+    <select id="findAllPosition" resultType="com.pms.entity.Position">
+    	SELECT * FROM position
+    </select>
+
+</mapper>
