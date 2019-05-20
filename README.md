@@ -1,12 +1,12 @@
 # pms
-人事管理系统
+人事管理系统pms(personnel management system)
 
 
 
 后端技术：SpringBoot+Mybatis+MySQL
 
 
-pms(personnel management system)
+
 
 该系统有6个模块：
 
