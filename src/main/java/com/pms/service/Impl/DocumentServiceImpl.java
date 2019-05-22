@@ -1,7 +1,10 @@
 package com.pms.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pms.VO.ResultPage;
 import com.pms.entity.Document;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.mapper.DocumentMapper;
 import com.pms.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,22 +176,26 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Result findDocumentByStatus(int documentStatus) {
+    public ResultPage findDocumentByStatus(int documentStatus,int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Document> documentList = documentMapper.findDocumentByStatus(documentStatus);
+        PageInfo<Document>  pageInfo = new PageInfo<Document>(documentList);
         if(documentList.size()==0){
-            return Result.failed("您输入的状态没有记录，请重新输入");
+            return ResultPage.failed("您输入的状态没有记录，请重新输入");
         }else {
-            return Result.success("查找成功", documentList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(), documentList);
         }
     }
 
     @Override
-    public Result findAllDocument() {
+    public ResultPage findAllDocument(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Document> documentList = documentMapper.findAllDocument();
+        PageInfo<Document> pageInfo = new PageInfo<Document>(documentList);
         if(documentList.size()==0){
-            return Result.failed("没有记录");
+            return ResultPage.failed("没有记录");
         }else {
-            return Result.success("查找成功", documentList);
+            return ResultPage.success("查找成功", pageInfo.getTotal(),documentList);
         }
     }
 }

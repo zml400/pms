@@ -1,6 +1,7 @@
 package com.pms.service;
 
-import com.pms.entity.Result;
+import com.pms.VO.Result;
+import com.pms.VO.ResultPage;
 import com.pms.entity.User;
 
 public interface UserService {
@@ -10,6 +11,6 @@ public interface UserService {
     public Result updateUser(User user);
     public Result findUserById(int userId);
     public Result findUserByName(String userName);
-    public Result findUserByStatus(int userStatus);
-    public Result findAllUser();
+    public ResultPage findUserByStatus(int userStatus, int pageNum, int pageSize);
+    public ResultPage findAllUser(int pageNum,int pageSize);
 }

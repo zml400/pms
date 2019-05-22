@@ -1,7 +1,10 @@
 package com.pms.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pms.VO.ResultPage;
 import com.pms.entity.Notice;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.mapper.NoticeMapper;
 import com.pms.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,17 +70,6 @@ public class NoticeServiceImpl implements NoticeService {
             return Result.success("查找成功",notice);
         }
     }
-
-    @Override
-    public Result findNoticeByStatus(int noticeStatus) {
-        List<Notice> noticeList = noticeMapper.findNoticeByStatus(noticeStatus);
-        if(noticeList.size()==0){
-            return Result.failed("您输入的状态错误，请重新输入");
-        }else {
-            return Result.success("查找成功",noticeList);
-        }
-    }
-
     @Override
     public Result findNoticeByContent(String noticeContent) {
         List<Notice> noticeList = noticeMapper.findNoticeByContent(noticeContent);
@@ -89,12 +81,26 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public Result findAllNotice() {
-        List<Notice> noticeList = noticeMapper.findAllNotice();
+    public ResultPage findNoticeByStatus(int noticeStatus,int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Notice> noticeList = noticeMapper.findNoticeByStatus(noticeStatus);
+        PageInfo<Notice> pageInfo = new PageInfo<>(noticeList);
         if(noticeList.size()==0){
-            return Result.failed("没有记录");
+            return ResultPage.failed("您输入的状态错误，请重新输入");
         }else {
-            return Result.success("查找成功",noticeList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),noticeList);
+        }
+    }
+
+    @Override
+    public ResultPage findAllNotice(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Notice> noticeList = noticeMapper.findAllNotice();
+        PageInfo<Notice> pageInfo = new PageInfo<>(noticeList);
+        if(noticeList.size()==0){
+            return ResultPage.failed("没有记录");
+        }else {
+            return ResultPage.success("查找成功",pageInfo.getTotal(),noticeList);
         }
     }
 }

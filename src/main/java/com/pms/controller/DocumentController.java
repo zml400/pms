@@ -1,19 +1,14 @@
 package com.pms.controller;
 
+import com.pms.VO.ResultPage;
 import com.pms.entity.Document;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.service.Impl.DocumentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/Document")
@@ -76,16 +71,18 @@ public class DocumentController {
     /**
      * 根据文件状态查找文件
      */
-    @RequestMapping("/findDocumentByStatus")
-    public Result findNoticeByStatus(int documentStatus){
-        Result result = documentService.findDocumentByStatus(documentStatus);
+    @RequestMapping("/findDocumentByStatus/{pageNum},{pageSize}")
+    public ResultPage findDocumentByStatus(@PathVariable("pageNum")int pageNum,
+                                           @PathVariable("pageSize")int pageSize,
+                                           int documentStatus){
+        ResultPage result = documentService.findDocumentByStatus(documentStatus,pageNum,pageSize);
         return  result;
     }
 
-    @RequestMapping("/findAllDocument")
-    public Result findAllNotice(){
-        Result result = documentService.findAllDocument();
-        return  result;
+    @RequestMapping("/findAllDocument/{pageNum},{pageSize}")
+    public ResultPage findAllDocument(@PathVariable("pageNum")int pageNum,
+                                    @PathVariable("pageSize")int pageSize){
+        return documentService.findAllDocument(pageNum,pageSize);
     }
 
 }

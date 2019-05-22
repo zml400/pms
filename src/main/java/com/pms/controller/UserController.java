@@ -1,9 +1,11 @@
 package com.pms.controller;
 
-import com.pms.entity.Result;
+import com.pms.VO.Result;
+import com.pms.VO.ResultPage;
 import com.pms.entity.User;
 import com.pms.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,25 +59,15 @@ public class UserController {
         Result result = userService.findUserByName(userName);
         return  result;
     }
-
-    /**
-     *  根据状态查找用户
-     * @param userStatus
-     * @return result
-     */
-    @RequestMapping("/findUserByStatus")
-    public Result findUser(int userStatus){
-        Result result = userService.findUserByStatus(userStatus);
-        return  result;
+    @RequestMapping("/findUserByStatus/{pageNum},{pageSize}")
+    public ResultPage findUserByStatus(@PathVariable("pageNum")int pageNum,
+                                           @PathVariable("pageSize")int pageSize,
+                                           int userStatus){
+        return userService.findUserByStatus(userStatus,pageNum,pageSize);
     }
-
-    /**
-     * 查找所有用户
-     * @return result
-     */
-    @RequestMapping("/findAllUser")
-    public Result findAllUser(){
-        Result result =userService.findAllUser();
-        return result;
+    @RequestMapping("/findAllUser/{pageNum},{pageSize}")
+    public ResultPage findAllUser(@PathVariable("pageNum")int pageNum,
+                                      @PathVariable("pageSize")int pageSize){
+        return userService.findAllUser(pageNum,pageSize);
     }
 }

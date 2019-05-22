@@ -1,7 +1,8 @@
 package com.pms.service;
 
+import com.pms.VO.ResultPage;
 import com.pms.entity.Position;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 
 public interface PositionService {
     public Result addPosition(Position position);
@@ -9,6 +10,6 @@ public interface PositionService {
     public Result updatePosition(Position position);
     public Result findPositionById(int positionId);
     public Result findPositionByName(String positionName);
-    public Result findPositionByStatus(int positionStatus);
-    public Result findAllPosition();
+    public ResultPage findPositionByStatus(int positionStatus, int pageNum, int pageSize);
+    public ResultPage findAllPosition(int pageNum,int pageSize);
 }

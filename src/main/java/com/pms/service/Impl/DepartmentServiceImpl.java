@@ -1,7 +1,10 @@
 package com.pms.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pms.VO.ResultPage;
 import com.pms.entity.Department;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.mapper.DepartmentMapper;
 import com.pms.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,21 +75,26 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Result findDepartmentByStatus(int DepartmentStatus){
+    public ResultPage findDepartmentByStatus(int DepartmentStatus,int pageNum,int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
         List<Department> departmentList = departmentMapper.findDepartmentByStatus(DepartmentStatus);
+        PageInfo<Department> pageInfo = new PageInfo<Department>(departmentList);
         if(departmentList.size()==0) {
-            return Result.success("查找成功", departmentList);
+            return ResultPage.failed("没有记录");
         }else {
-            return Result.success("查找成功",departmentList);
+            System.out.println(departmentList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),departmentList);
         }
     }
     @Override
-    public Result findAllDepartment() {
+    public ResultPage findAllDepartment(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Department> departmentList = departmentMapper.findAllDepartment();
+        PageInfo<Department> pageInfo = new PageInfo<Department>(departmentList);
         if(departmentList.size()==0){
-            return Result.success("没有记录");
+            return ResultPage.failed("没有记录");
         }else{
-            return Result.success("查找成功",departmentList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),departmentList);
         }
     }
 }

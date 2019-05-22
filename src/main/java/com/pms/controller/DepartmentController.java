@@ -1,9 +1,11 @@
 package com.pms.controller;
 
+import com.pms.VO.ResultPage;
 import com.pms.entity.Department;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.service.Impl.DepartmentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,27 +56,26 @@ public class DepartmentController {
      */
     @RequestMapping("/findDepartmentByName")
     public Result findDepartmentByName(String departmentName){
-        Result result = departmentService.findDepartmentByName(departmentName);
-        return  result;
+        return departmentService.findDepartmentByName(departmentName);
     }
     /**
      * 通过状态查找部门
-     * @param departmentStatus
      * @return result
      */
-    @RequestMapping("/findDepartmentByStatus")
-    public Result findDepartmentByStatus(int departmentStatus){
-        Result result = departmentService.findDepartmentByStatus(departmentStatus);
-        return  result;
+    @RequestMapping("/findDepartmentByStatus/{pageNum},{pageSize}")
+    public ResultPage findDepartmentByStatus(@PathVariable("pageNum")int pageNum,
+                                             @PathVariable("pageSize")int pageSize,
+                                             int departmentStatus){
+        return departmentService.findDepartmentByStatus(departmentStatus,pageNum,pageSize);
     }
 
     /**
      * 查找所有的部门信息
      * @return result
      */
-    @RequestMapping("/findAllDepartment")
-    public Result findAllDepartment(){
-        Result result = departmentService.findAllDepartment();
-        return  result;
+    @RequestMapping("/findAllDepartment/{pageNum},{pageSize}")
+    public ResultPage findAllDepartment(@PathVariable("pageNum")int pageNum,
+                                        @PathVariable("pageSize")int pageSize){
+       return departmentService.findAllDepartment(pageNum,pageSize);
     }
 }

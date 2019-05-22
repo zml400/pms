@@ -1,7 +1,10 @@
 package com.pms.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pms.VO.ResultPage;
 import com.pms.entity.Employee;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.mapper.EmployeeMapper;
 import com.pms.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,50 +115,60 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Result findEmployeeByGender(String employeeGender) {
+    public ResultPage findEmployeeByGender(String employeeGender,int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Employee> employeeList = employeeMapper.findEmployeeByGender(employeeGender);
+        PageInfo<Employee> pageInfo= new PageInfo<>(employeeList);
         if(employeeList.size()==0){
-            return Result.failed("您输入的性别不存在或者没有记录，请重新输入");
+            return ResultPage.failed("您输入的性别不存在，请重新输入");
         }else {
-            return Result.success("查找成功",employeeList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),employeeList);
         }
     }
 
     @Override
-    public Result findEmployeeByPosition(String employeePosition) {
+    public ResultPage findEmployeeByPosition(String employeePosition,int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Employee> employeeList = employeeMapper.findEmployeeByPosition(employeePosition);
+        PageInfo<Employee> pageInfo= new PageInfo<>(employeeList);
         if(employeeList.size()==0){
-            return Result.failed("您输入的职位不存在，请重新输入");
+            return ResultPage.failed("您输入的职位不存在，请重新输入");
         }else {
-            return Result.success("查找成功",employeeList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),employeeList);
         }
     }
 
     @Override
-    public Result findEmployeeByDepartment(String employeeDepartment) {
+    public ResultPage findEmployeeByDepartment(String employeeDepartment,int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Employee> employeeList = employeeMapper.findEmployeeByDepartment(employeeDepartment);
+        PageInfo<Employee> pageInfo= new PageInfo<>(employeeList);
         if(employeeList.size()==0){
-            return Result.failed("您输入的部门不存在，请重新输入");
+            return ResultPage.failed("您输入的部门不存在，请重新输入");
         }else {
-            return Result.success("查找成功",employeeList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),employeeList);
         }
     }
     @Override
-    public Result findEmployeeByStatus(int employeeStatus){
+    public ResultPage findEmployeeByStatus(int employeeStatus,int pageNum,int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
         List<Employee> employeeList = employeeMapper.findEmployeeByStatus(employeeStatus);
+        PageInfo<Employee> pageInfo= new PageInfo<>(employeeList);
         if(employeeList.size()==0){
-            return Result.failed("您输入的状态不存在，请重新输入");
+            return ResultPage.failed("您输入的状态不存在，请重新输入");
         }else {
-            return Result.success("查找成功",employeeList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),employeeList);
         }
     }
     @Override
-    public Result findAllEmployee() {
+    public ResultPage findAllEmployee(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Employee> employeeList = employeeMapper.findAllEmployee();
+        PageInfo<Employee> pageInfo= new PageInfo<>(employeeList);
         if(employeeList.size()==0){
-            return Result.failed("没有记录");
+            return ResultPage.failed("没有记录");
         }else {
-            return Result.success("查找成功",employeeList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),employeeList);
         }
     }
 }

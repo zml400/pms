@@ -1,11 +1,12 @@
 package com.pms.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pms.VO.ResultPage;
 import com.pms.entity.Position;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.mapper.PositionMapper;
 import com.pms.service.PositionService;
-import javafx.geometry.Pos;
-import org.omg.PortableServer.POA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -71,21 +72,25 @@ public class PositionServiceImpl implements PositionService {
         }
     }
     @Override
-    public Result findPositionByStatus(int positionStatus){
+    public ResultPage findPositionByStatus(int positionStatus,int pageNum, int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
         List<Position> positionList = positionMapper.findPositionByStatus(positionStatus);
+        PageInfo<Position> pageInfo = new PageInfo<>(positionList);
         if(positionList.size()==0){
-            return Result.failed("您输入的用户状态错误，请重新输入");
+            return ResultPage.failed("您输入的用户状态错误，请重新输入");
         }else {
-            return Result.success("查找成功",positionList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),positionList);
         }
     }
     @Override
-    public Result findAllPosition() {
+    public ResultPage findAllPosition(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<Position> positionList = positionMapper.findAllPosition();
+        PageInfo<Position> pageInfo = new PageInfo<>(positionList);
         if(positionList.size()==0){
-            return Result.failed("没有记录");
+            return ResultPage.failed("没有记录");
         }else{
-            return Result.success("查找成功",positionList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),positionList);
         }
     }
 }

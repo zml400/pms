@@ -1,9 +1,11 @@
 package com.pms.controller;
 
+import com.pms.VO.ResultPage;
 import com.pms.entity.Notice;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.service.Impl.NoticeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,15 +41,16 @@ public class NoticeController {
         Result result = noticeService.findNoticeByContent(noticeContent);
         return  result;
     }
-    @RequestMapping("/findNoticeByStatus")
-    public Result findNoticeByStatus(int noticeStatus){
-        Result result = noticeService.findNoticeByStatus(noticeStatus);
-        return  result;
+    @RequestMapping("/findNoticeByStatus/{pageNum},{pageSize}")
+    public ResultPage findNoticeByStatus(@PathVariable("pageNum")int pageNum,
+                                           @PathVariable("pageSize")int pageSize,
+                                           int noticeStatus){
+        return noticeService.findNoticeByStatus(noticeStatus,pageNum,pageSize);
     }
-    @RequestMapping("/findAllNotice")
-    public Result findAllNotice(){
-        Result result = noticeService.findAllNotice();
-        return  result;
+    @RequestMapping("/findAllNotice/{pageNum},{pageSize}")
+    public ResultPage findAllNotice(@PathVariable("pageNum")int pageNum,
+                                           @PathVariable("pageSize")int pageSize){
+        return noticeService.findAllNotice(pageNum,pageSize);
     }
 
 }

@@ -1,6 +1,9 @@
 package com.pms.service.Impl;
 
-import com.pms.entity.Result;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pms.VO.Result;
+import com.pms.VO.ResultPage;
 import com.pms.entity.User;
 import com.pms.mapper.UserMapper;
 import com.pms.service.UserService;
@@ -113,22 +116,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result findUserByStatus(int userStatus){
-        Result result = new Result();
+    public ResultPage findUserByStatus(int userStatus,int pageNum, int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
         List<User> userList=userMapper.findUserByStatus(userStatus);
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
         if(userList.size()==0){
-            return Result.failed("没有找到相应记录");
+            return ResultPage.failed("没有找到相应记录");
         }else {
-            return Result.success("查找成功",userList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),userList);
         }
     }
     @Override
-    public Result findAllUser(){
+    public ResultPage findAllUser(int pageNum, int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
         List<User> userList = userMapper.findAllUser();
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
         if(userList.size()==0){
-            return Result.failed("没有记录");
+            return ResultPage.failed("没有记录");
         }else{
-            return Result.success("查找成功",userList);
+            return ResultPage.success("查找成功",pageInfo.getTotal(),userList);
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.pms.service;
 
+import com.pms.VO.ResultPage;
 import com.pms.entity.Department;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 
 public interface DepartmentService {
     public Result addDepartment(Department department);
@@ -9,6 +10,6 @@ public interface DepartmentService {
     public Result updateDepartment(Department departmentId);
     public Result findDepartmentById(int departmentId);
     public Result findDepartmentByName(String departmentName);
-    public Result findDepartmentByStatus(int DepartmentStatus);
-    public Result findAllDepartment();
+    public ResultPage findDepartmentByStatus(int DepartmentStatus,int pageNum,int pageSize);
+    public ResultPage findAllDepartment(int pageNum, int pageSize);
 }

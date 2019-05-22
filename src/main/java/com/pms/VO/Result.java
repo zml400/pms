@@ -1,4 +1,4 @@
-package com.pms.entity;
+package com.pms.VO;
 
 import lombok.Data;
 
@@ -7,6 +7,7 @@ public class Result {
     private int code;  //0：成功，1：失败
     private String message;
     private Object data;
+    private Result(){}
     public static Result build(int code,String message,Object data){
         Result result = new Result();
         result.setCode(code);
@@ -28,5 +29,8 @@ public class Result {
     }
     public static Result failed(String message){
         return build(1,message,"");
+    }
+    public static Result failed(String message,Object object){
+        return build(1,message,object);
     }
 }

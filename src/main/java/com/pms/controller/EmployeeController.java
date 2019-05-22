@@ -1,9 +1,11 @@
 package com.pms.controller;
 
+import com.pms.VO.ResultPage;
 import com.pms.entity.Employee;
-import com.pms.entity.Result;
+import com.pms.VO.Result;
 import com.pms.service.Impl.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,33 +53,37 @@ public class EmployeeController {
         Result result = employeeService.findEmployeeByPhone(employeePhone);
         return result;
     }
-    @RequestMapping("/findEmployeeByGender")
-    public Result findEmployeeByGender(String employeeGender){
-        Result result = employeeService.findEmployeeByGender(employeeGender);
+    @RequestMapping("/findEmployeeByGender/{pageNum},{pageSize}")
+    public ResultPage findEmployeeByGender(@PathVariable("pageNum")int pageNum,
+                                       @PathVariable("pageSize")int pageSize,
+                                       String employeeGender){
+        ResultPage result = employeeService.findEmployeeByGender(employeeGender,pageNum,pageSize);
         return result;
     }
 
-    @RequestMapping("/findEmployeeByPosition")
-    public Result findEmployeeByPosition(String employeePosition){
-        Result result = employeeService.findEmployeeByPosition(employeePosition);
+    @RequestMapping("/findEmployeeByPosition/{pageNum},{pageSize}")
+    public ResultPage findEmployeeByPosition(@PathVariable("pageNum")int pageNum,
+                                         @PathVariable("pageSize")int pageSize,
+                                         String employeePosition){
+        ResultPage result = employeeService.findEmployeeByPosition(employeePosition,pageNum,pageSize);
         return result;
     }
-    @RequestMapping("/findEmployeeByDepartment")
-    public Result findEmployeeByDepartment(String employeeDepartment){
-        Result result = employeeService.findEmployeeByDepartment(employeeDepartment);
+    @RequestMapping("/findEmployeeByDepartment/{pageNum},{pageSize}")
+    public ResultPage findEmployeeByDepartment(@PathVariable("pageNum")int pageNum,
+                                           @PathVariable("pageSize")int pageSize,
+                                           String employeeDepartment){
+        ResultPage result = employeeService.findEmployeeByDepartment(employeeDepartment,pageNum,pageSize);
         return result;
     }
-    @RequestMapping("/findEmployeeByStatus")
-    public Result findEmployeeByStatus(int employeeStatus){
-        Result result = employeeService.findEmployeeByStatus(employeeStatus);
-        return result;
+    @RequestMapping("/findEmployeeByStatus/{pageNum},{pageSize}")
+    public ResultPage findEmployeeByStatus(@PathVariable("pageNum")int pageNum,
+                                           @PathVariable("pageSize")int pageSize,
+                                           int employeeStatus){
+        return employeeService.findEmployeeByStatus(employeeStatus,pageNum,pageSize);
     }
-    @RequestMapping("/findAllEmployee")
-    public Result findAllEmployee(){
-        Result result = employeeService.findAllEmployee();
-        return result;
+    @RequestMapping("/findAllEmployee/{pageNum},{pageSize}")
+    public ResultPage findEmployeeByStatus(@PathVariable("pageNum")int pageNum,
+                                           @PathVariable("pageSize")int pageSize){
+        return employeeService.findAllEmployee(pageNum,pageSize);
     }
-
-
-
 }

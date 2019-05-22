@@ -1,12 +1,11 @@
 package com.pms.controller;
 
-import com.pms.entity.Department;
+import com.pms.VO.ResultPage;
 import com.pms.entity.Position;
-import com.pms.entity.Result;
-import com.pms.service.Impl.DepartmentServiceImpl;
+import com.pms.VO.Result;
 import com.pms.service.Impl.PositionServiceImpl;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,24 +58,15 @@ public class PositionController {
         Result result = positionService.findPositionByName(positionName);
         return  result;
     }
-    /**
-     * 通过状态查找部门
-     * @param positionStatus
-     * @return result
-     */
-    @RequestMapping("/findPositionByStatus")
-    public Result findPositionByStatus(int positionStatus){
-        Result result = positionService.findPositionByStatus(positionStatus);
-        return  result;
+    @RequestMapping("/findPositionByStatus/{pageNum},{pageSize}")
+    public ResultPage findPositionByStatus(@PathVariable("pageNum")int pageNum,
+                                         @PathVariable("pageSize")int pageSize,
+                                         int positionStatus){
+        return positionService.findPositionByStatus(positionStatus,pageNum,pageSize);
     }
-
-    /**
-     * 查找所有的部门信息
-     * @return result
-     */
-    @RequestMapping("/findAllPosition")
-    public Result findAllPosition(){
-        Result result = positionService.findAllPosition();
-        return  result;
+    @RequestMapping("/findAllPosition/{pageNum},{pageSize}")
+    public ResultPage findAllPosition(@PathVariable("pageNum")int pageNum,
+                                    @PathVariable("pageSize")int pageSize){
+        return positionService.findAllPosition(pageNum,pageSize);
     }
 }
