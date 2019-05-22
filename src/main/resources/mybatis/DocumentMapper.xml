@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pms.mapper.DocumentMapper">
+
+    <sql id="Base_Column_List">
+		document_id,document_name,document_content,document_url,document_status
+	</sql>
+    <!-- insert document 其中keyProperty=document中的id字段-->
+    <insert id = "addDocument"  useGeneratedKeys="true" keyProperty="documentId"  parameterType="com.pms.entity.Document">
+       insert into document
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="documentId!=null">
+                document_id,
+            </if>
+            <if test="documentName!=null">
+                document_name,
+            </if>
+            <if test="documentContent!=null">
+                document_content,
+            </if>
+            <if test="documentUrl!=null">
+                document_url,
+            </if>
+            <if test="documentStatus!=null">
+                document_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="documentId != null">
+                #{documentId},
+            </if>
+            <if test="documentName != null">
+                #{documentName},
+            </if>
+            <if test="documentContent != null">
+                #{documentContent},
+            </if>
+            <if test="documentUrl != null">
+                #{documentUrl},
+            </if>
+            <if test="documentStatus != null">
+                #{documentStatus},
+            </if>
+        </trim>
+    </insert>
+    <!-- delete document -->
+    <delete id="deleteDocument" parameterType="int">
+        UPDATE document set document_status = 2
+        where document_id=#{documentId}
+    </delete>
+
+    <!-- update document -->
+    <update id="updateDocument" parameterType="com.pms.entity.Document">
+        UPDATE document
+        <set>
+            <if test="documentId!=null">
+                document_id=#{documentId},
+            </if>
+            <if test="documentIdName!=null">
+                documentId_name=#{documentIdName},
+            </if>
+            <if test="documentContent!=null">
+                document_content=#{documentContent},
+            </if>
+            <if test="documentUrl!=null">
+                document_Url=#{documentLink},
+            </if>
+            <if test="documentStatus!=null">
+                document_status=#{documentStatus},
+            </if>
+        </set>
+          where document_id=#{documentId}
+    </update>
+
+    <!-- find document by id-->
+    <select id="findDocumentById" parameterType="int" resultType="com.pms.entity.Document">
+        select
+        <include refid="Base_Column_List" />
+        from document
+        where document_id= #{documentId}
+    </select>
+
+    <!-- find employee by name -->
+    <select id="findDocumentByName" parameterType="String" resultType="com.pms.entity.Document">
+        select
+        <include refid="Base_Column_List" />
+        from document
+        where document_name = #{documentName}
+    </select>
+
+    <!-- find employee by status -->
+    <select id="findDocumentByStatus" parameterType="int" resultType="com.pms.entity.Document">
+        select
+        <include refid="Base_Column_List" />
+        from document
+        where document_status = #{documentStatus}
+    </select>
+
+    <!-- find all employee -->
+    <select id="findAllDocument" resultType="com.pms.entity.Document">
+    	select * from document
+    </select>
+
+</mapper>

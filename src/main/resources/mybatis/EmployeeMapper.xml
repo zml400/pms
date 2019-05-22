@@ -135,7 +135,7 @@
         select
         <include refid="Base_Column_List" />
         from employee
-        where employee_identity_card = #{employeeIdentityCard}
+        where employee_id = #{employeeId}
     </select>
 
     <!-- find employee by IdentityCard-->

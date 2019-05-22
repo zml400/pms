@@ -17,105 +17,75 @@ public class PositionServiceImpl implements PositionService {
     private PositionMapper positionMapper;
     @Override
     public Result addPosition(Position position) {
-        Result result = new Result();
         Position position1=positionMapper.findPositionByName(position.getPositionName());
         if(position1!=null){
-            result.setCode(1);
-            result.setMessage("添加失败，名字已经存在！");
+            return Result.failed("添加失败，名字已经存在！");
         }else{
             int num=positionMapper.addPosition(position);
             if(num==0){
-                result.setCode(1);
-                result.setMessage("添加失败！");
+                return Result.failed("添加失败！");
             }else
             {
-                result.setCode(1);
-                result.setMessage("添加成功");
-                result.setData(position);
+                return Result.success("添加成功",position);
             }
         }
-        return result;
     }
 
     @Override
     public Result deletePosition(int positionId) {
-        Result result = new Result();
         int num=positionMapper.deletePosition(positionId);
         if(num==0){
-            result.setCode(1);
-            result.setMessage("删除失败");
+            return Result.failed("删除失败");
         }else {
-            result.setCode(0);
-            result.setMessage("删除成功");
+            return Result.success("删除成功");
         }
-        return result;
     }
 
     @Override
     public Result updatePosition(Position position) {
-        Result result = new Result();
         int num=positionMapper.updatePosition(position);
         if(num==0){
-            result.setCode(1);
-            result.setMessage("更新失败");
-        }else{
-            result.setCode(0);
-            result.setMessage("更新成功");
-            result.setData(position);
+            return Result.failed("更新失败");
+        }else {
+            return Result.success("更新成功");
         }
-        return result;
     }
 
     @Override
     public Result findPositionById(int positionId) {
-        Result result = new Result();
         Position position = positionMapper.findPositionById(positionId);
         if(position==null){
-            result.setCode(1);
-            result.setMessage("您输入的用户名错误，请重新输入");
+            return Result.failed("您输入的用户id错误，请重新输入");
         }else {
-            result.setCode(0);
-            result.setMessage("查找成功");
-            result.setData(position);
+            return Result.success("查找成功",position);
         }
-        return result;
     }
 
     @Override
     public Result findPositionByName(String positionName) {
-        Result result = new Result();
         Position position = positionMapper.findPositionByName(positionName);
         if(position==null){
-            result.setCode(1);
-            result.setMessage("您输入的用户名错误，请重新输入");
+            return Result.failed("您输入的用户名错误，请重新输入");
         }else {
-            result.setCode(0);
-            result.setMessage("查找成功");
-            result.setData(position);
+            return Result.success("查找成功",position);
         }
-        return result;
     }
     @Override
     public Result findPositionByStatus(int positionStatus){
-        Result result = new Result();
         List<Position> positionList = positionMapper.findPositionByStatus(positionStatus);
         if(positionList.size()==0){
-            result.setCode(1);
-            result.setMessage("您输入的用户名错误，请重新输入");
+            return Result.failed("您输入的用户状态错误，请重新输入");
         }else {
-            result.setCode(0);
-            result.setMessage("查找成功");
-            result.setData(positionStatus);
+            return Result.success("查找成功",positionList);
         }
-        return result;
     }
     @Override
     public Result findAllPosition() {
-        Result result = new Result();
         List<Position> positionList = positionMapper.findAllPosition();
-        result.setCode(0);
-        result.setMessage("查找成功");
-        result.setData(positionList);
-        return result;
+        if(positionList.size()==0){
+            return Result.failed("没有记录");
+        }else{
+            return Result.success("查找成功",positionList);
+        }
     }
 }
